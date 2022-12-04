@@ -14,7 +14,8 @@ export class CoffeeService {
   ) {}
 
   async getAll(): Promise<Coffee[]> {
-    await this.deepgramService.getAllWords();
+    // await this.deepgramService.getAllWords();
+
     return this.coffeeRepository.find({ relations: ['ingredients', 'tastes'] });
   }
 }
