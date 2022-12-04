@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2019",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "paths": {
+      "@root/*": ["src/*"],
+      "@domain/*": ["src/domain/*"],
+      "@infrastructure/*": ["src/infrastructure/*"],
+      "@microservices/*": ["src/microservices/*"],
+      "@application/*": ["src/application/*"],
+      "@controllers/*": ["src/application/controllers/*"],
+      "@dtos/*": ["src/application/dtos/*"],
+      "@shared/*": ["src/shared/*"],
+      "@config/*": ["src/config/*"],
+      "@entities/*": ["src/domain/entities/*"],
+      "@services/*": ["src/domain/services/*"],
+      "@guards/*": ["src/application/guards/*"],
+      "@repositories/*": ["src/domain/repositories/*"]
+    }
+  }
+}
