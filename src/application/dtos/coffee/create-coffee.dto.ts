@@ -22,6 +22,10 @@ export class CreateCoffeeDto {
   recipe: string;
 
   @IsNotEmpty()
+  @IsString()
+  imageUrl: string;
+
+  @IsNotEmpty()
   @IsNumber()
   @IsInt()
   @Min(0)
@@ -44,6 +48,7 @@ export class CreateCoffeeDto {
     const it = new Coffee();
     it.name = dto.name;
     it.recipe = dto.recipe;
+    it.imageUrl = dto.imageUrl;
     it.strength = dto.strength;
     it.volume = dto.volume;
     it.kilocalories = dto.kilocalories;

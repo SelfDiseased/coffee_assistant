@@ -6,6 +6,7 @@ export class CoffeeDto {
   id: number;
   name: string;
   recipe: string;
+  imageUrl: string;
   strength: number;
   volume: number;
   kilocalories: number;
@@ -17,6 +18,7 @@ export class CoffeeDto {
     it.id = entity.id;
     it.name = entity.name;
     it.recipe = entity.recipe;
+    it.imageUrl = entity.imageUrl;
     it.strength = entity.strength;
     it.volume = entity.volume;
     it.kilocalories = entity.kilocalories;

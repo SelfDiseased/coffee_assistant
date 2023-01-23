@@ -3,6 +3,8 @@ import { Connection } from 'typeorm';
 
 import { Coffee } from '@entities/coffee.entity';
 import { CreateCoffeeDto } from '@dtos/coffee/create-coffee.dto';
+import { Taste } from '@root/domain/entities/taste.entity';
+import { Ingredient } from '@root/domain/entities/ingredient.entity';
 
 export default class CreateRatecard implements Seeder {
   private coffees: Coffee[] = CreateCoffeeDto.toEntities([
@@ -17,25 +19,21 @@ export default class CreateRatecard implements Seeder {
       kilocalories: 5,
       ingredients: [{ name: 'boiled water' }, { name: 'fresh coffee beans' }],
       tastes: [{ name: 'bitter' }],
+      imageUrl:
+        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.thespruceeats.com%2Fwhat-is-espresso-765702&psig=AOvVaw3XxQAyHhMOud5Q5GTjvIZX&ust=1674578014637000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCKiiq6-P3vwCFQAAAAAdAAAAABAE',
     },
   ]);
 
-  private async seedTable(
-    connection: Connection,
-    values: any,
-    className: any,
-    updateAnyway = false,
-  ) {
+  private async seedTable(connection: Connection, values: any) {
     try {
-      const itemsFromDb: any = await connection.getRepository(className).find();
-      const newItems = updateAnyway
-        ? values
-        : values.filter(
-            (val) => !itemsFromDb.map((item) => item.id).includes(val.id),
-          );
-      console.log(newItems);
+      await connection.query(`DELETE FROM coffees_ingredients`);
+      await connection.query(`DELETE FROM coffees_tastes`);
 
-      await connection.createEntityManager().save(className, newItems);
+      await connection.query(`DELETE FROM coffee`);
+      await connection.query(`DELETE FROM taste`);
+      await connection.query(`DELETE FROM ingredient`);
+
+      await connection.createEntityManager().save(Coffee, values);
     } catch (err) {
       throw err;
     }
@@ -43,7 +41,7 @@ export default class CreateRatecard implements Seeder {
 
   async run(factory: Factory, connection: Connection): Promise<void> {
     try {
-      await this.seedTable(connection, this.coffees, Coffee);
+      await this.seedTable(connection, this.coffees);
     } catch (err) {
       console.error(err.message);
     }

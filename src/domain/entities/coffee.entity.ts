@@ -23,6 +23,9 @@ export class Coffee {
   recipe: string;
 
   @Column()
+  imageUrl: string;
+
+  @Column()
   strength: number;
 
   @Column()
