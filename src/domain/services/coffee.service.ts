@@ -17,7 +17,14 @@ export class CoffeeService {
       2: 'recipe',
       3: 'ingredients',
       4: 'tastes',
+      5: 'strength',
     };
+
+    if (search?.length) {
+      search = search.replace('/\\+/', ' ');
+      search = search.replace(' and ', ',');
+      search = search.replace(' and ', ',');
+    }
 
     const property = propertiesObj[filterId] || '';
 
@@ -25,8 +32,8 @@ export class CoffeeService {
       .createQueryBuilder('c')
       .leftJoinAndSelect('c.tastes', 'tastes')
       .leftJoinAndSelect('c.ingredients', 'ingredients')
-      .where(property == 'name' ? `c.name  LIKE '%${search}%'` : 'true')
-      .andWhere(property == 'recipe' ? `c.recipe  LIKE '%${search}%'` : 'true')
+      .where(property == 'name' ? `c.name ILIKE '%${search}%'` : 'true')
+      .andWhere(property == 'recipe' ? `c.recipe ILIKE '%${search}%'` : 'true')
       .andWhere(
         property == 'ingredients'
           ? 'ingredients.name IN (:...ingredients)'
@@ -38,6 +45,14 @@ export class CoffeeService {
       .andWhere(property == 'tastes' ? 'tastes.name IN (:...tastes)' : 'true', {
         tastes: search?.split(','),
       })
+      .andWhere(
+        property == 'strength' && search !== undefined
+          ? 'c.strength = :strength'
+          : 'true',
+        {
+          strength: +search,
+        },
+      )
       .getMany();
   }
 }
